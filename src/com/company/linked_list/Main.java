@@ -1,7 +1,5 @@
 package com.company.linked_list;
 
-import com.company.linked_list.Node;
-
 import java.util.HashMap;
 
 public class Main {
