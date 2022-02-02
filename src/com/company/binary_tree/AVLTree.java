@@ -13,7 +13,6 @@ public class AVLTree {
 //            System.out.println();
 
         }
-
         display(root);
         System.out.println();
         System.out.println("==================================================");
