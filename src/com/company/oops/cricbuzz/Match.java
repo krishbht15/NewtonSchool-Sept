@@ -1,4 +1,4 @@
-package com.company.oops;
+package com.company.oops.cricbuzz;
 
 import java.util.ArrayList;
 

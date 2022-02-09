@@ -1,4 +1,4 @@
-package com.company.oops;
+package com.company.oops.cricbuzz;
 
 public enum MatchType {
     ODI,
