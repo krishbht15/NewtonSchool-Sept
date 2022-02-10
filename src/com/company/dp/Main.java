@@ -4,11 +4,14 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        int[] dp = new int[5];
-        Arrays.fill(dp, -1);
+
 //        System.out.println(fibDP(10, dp));
 //        System.out.println(climbingStairsDp(4, dp));
-        System.out.println(climbingStairsDp(4));
+//        System.out.println(climbingStairsDp(4));
+        int[] arr = {2, 1, 4, 0, 0, 1};
+        int[] dp = new int[arr.length + 1];
+        Arrays.fill(dp, -1);
+        System.out.println(totalPathsWithVariableJumpsDP(arr, 0, dp));
     }
 
     public static int fibDP(int n, int[] dp) {
@@ -125,5 +128,62 @@ public class Main {
             }
         }
         return dp[0];
+    }
+
+    public static int totalPathsWithVariableJump(int[] arr, int i) {
+        if (i == arr.length) return 1;
+        if (i > arr.length) return 0;
+        int jumps = arr[i];
+        int res = 0;
+        for (int j = 1; j <= jumps; j++) {
+            res += totalPathsWithVariableJump(arr, i + j);
+        }
+        return res;
+    }
+
+    public static int totalPathsWithVariableJumpsDP(int[] arr, int i, int[] dp) {
+        if (i == arr.length) return 1;
+        if (i > arr.length) return 0;
+        if (dp[i] != -1) return dp[i];
+        int res = 0;
+        int jumps = arr[i];
+        for (int j = 1; j <= jumps; j++) {
+            res += totalPathsWithVariableJumpsDP(arr, i + j, dp);
+        }
+        return dp[i] = res;
+    }
+
+    public static int minPathSumRec(int[][] arr, int i, int j) {
+        if (i == arr.length - 1 && j == arr[0].length - 1) return arr[i][j];
+        int r = j + 1 < arr[0].length ? minPathSumRec(arr, i, j + 1)
+                : Integer.MAX_VALUE;
+        int d = i + 1 < arr.length ? minPathSumRec(arr, i + 1, j)
+                : Integer.MAX_VALUE;
+        return Math.min(r, d) + arr[i][j];
+    }
+
+    public static int minPathSumRecDP(int[][] arr, int i, int j, int[][] dp) {
+        if (i == arr.length - 1 && j == arr[0].length - 1) return dp[i][j] = arr[i][j];
+        if (dp[i][j] != -1) return dp[i][j];
+        int r = j + 1 < arr[0].length ? minPathSumRecDP(arr, i, j + 1, dp)
+                : Integer.MAX_VALUE;
+        int d = i + 1 < arr.length ? minPathSumRecDP(arr, i + 1, j, dp)
+                : Integer.MAX_VALUE;
+        return dp[i][j] = Math.min(r, d) + arr[i][j];
+    }
+
+    public static int minPathSumTabDP(int[][] arr) {
+        int[][] dp = new int[arr.length][arr[0].length];
+        for (int i = arr.length - 1; i >= 0; i--) {
+            for (int j = arr[0].length - 1; j >= 0; j--) {
+                if (i == arr.length - 1 && j == arr[0].length - 1) dp[i][j] = arr[i][j];
+                else {
+                    int r = j + 1 < arr[0].length ? dp[i][j + 1] : Integer.MAX_VALUE;
+                    int d = i + 1 < arr.length ? dp[i + 1][j] : Integer.MAX_VALUE;
+                    dp[i][j] = Math.min(r, d) + arr[i][j];
+                }
+            }
+        }
+        return dp[0][0];
     }
 }
